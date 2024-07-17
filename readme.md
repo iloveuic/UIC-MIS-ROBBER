@@ -52,3 +52,9 @@ conda install pandas beautifulsoup4 selenium
 - start_rob_time：开始选课的时间，例如 "10:00"。
 
 <img src="intro/input.png" alt="input" width="700"/>
+
+## #️⃣运行MIS_ROBBER抢课程序
+以上环境/参数配置完成后可以使用以下代码运行程序
+```shell
+python START_ROBBER.py
+```
