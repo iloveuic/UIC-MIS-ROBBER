@@ -9,6 +9,7 @@ on:
       password:
         description: 'Enter your password'
         required: true
+        secret: true
       courses:
         description: 'Enter the course names (comma-separated)'
         required: true
@@ -36,10 +37,6 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install selenium
-        pip install pandas
-        pip install bs4
-        # pip install os
-        # pip install datetime
         # Install other dependencies here if necessary
         # e.g., pip install -r UIC_MIS_ROBBER/requirements.txt
 
@@ -51,6 +48,7 @@ jobs:
         unzip chrome-linux64.zip -d chrome
         sudo mv chrome/chrome-linux64 /usr/local/bin/chrome
         sudo ln -s /usr/local/bin/chrome/chrome /usr/local/bin/google-chrome
+        sudo chmod +x /usr/local/bin/google-chrome
         google-chrome --version
 
     - name: Install ChromeDriver
