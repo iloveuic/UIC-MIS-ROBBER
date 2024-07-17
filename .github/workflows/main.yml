@@ -1,4 +1,4 @@
-name: Run START_ROBBER
+name: Run UIC_MIS_ROBBER
 
 on:
   workflow_dispatch:
@@ -21,8 +21,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
+    - name: Checkout UIC_MIS_ROBBER repository
       uses: actions/checkout@v2
+      with:
+        repository: henrykingcn/UIC_MIS_ROBBER
+        path: UIC_MIS_ROBBER
 
     - name: Set up Python
       uses: actions/setup-python@v2
@@ -34,7 +37,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install selenium
         # Install other dependencies here if necessary
-        # e.g., pip install -r requirements.txt
+        # e.g., pip install -r UIC_MIS_ROBBER/requirements.txt
 
     - name: Install Chrome
       run: |
@@ -61,4 +64,4 @@ jobs:
         COURSES: ${{ github.event.inputs.courses }}
         START_TIME: ${{ github.event.inputs.start_time }}
       run: |
-        python /path/to/your/START_ROBBER.py
+        python UIC_MIS_ROBBER/START_ROBBER.py
