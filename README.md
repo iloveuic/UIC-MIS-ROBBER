@@ -1,6 +1,5 @@
 # 北师港浸大UIC MIS系统2024高级自动化抢课程序
- ![mis.png](intro/mis.png)
-
+<img src="intro/mis.png" alt="mis" width="500"/>
 
 ## 免责声明
 
@@ -11,7 +10,8 @@ UIC选课规则原文：Please note that students are **NOT** allowed to use any
 ## 简介
 该Python脚本用于从UIC的MIS选课系统抓取课程信息，并在指定时间自动选择课程。脚本使用 Selenium 和 BeautifulSoup 库来实现登录、抓取和自动选课功能。
 
-![flowdiagram.png](intro%2Fflowdiagram.png)
+<img src="intro/flowdiagram.png" alt="flowdiagram" width="500"/>
+
 
 ## 使用教程
 
@@ -36,6 +36,7 @@ conda install pandas beautifulsoup4 selenium
 首先确认您的计算机中是否安装了Chrome，并更新到最新版本，如果没有请前往 [Chrome中国 官网](https://www.google.cn/intl/zh-CN/chrome/) 下载并安装Google Chrome。
 
 接着前往[Chrome Driver官网](https://googlechromelabs.github.io/chrome-for-testing/) 下载最新版本与你的电脑系统相对应的Chrome Driver。如红框所示的位置。
+
 <img src="intro/chromedriver.png" alt="chromedriver" width="500"/>
 
 
