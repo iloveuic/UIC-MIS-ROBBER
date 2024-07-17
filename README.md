@@ -36,7 +36,8 @@ conda install pandas beautifulsoup4 selenium
 首先确认您的计算机中是否安装了Chrome，并更新到最新版本，如果没有请前往 [Chrome中国 官网](https://www.google.cn/intl/zh-CN/chrome/) 下载并安装Google Chrome。
 
 接着前往[Chrome Driver官网](https://googlechromelabs.github.io/chrome-for-testing/) 下载最新版本与你的电脑系统相对应的Chrome Driver。如红框所示的位置。
-![chromedriver.png](intro/chromedriver.png)
+<img src="intro/chromedriver.png" alt="chromedriver" width="500"/>
+
 
 下载完成后解压，把chromedriver程序放到chromedriver目录下
 
