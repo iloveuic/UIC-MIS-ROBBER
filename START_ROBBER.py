@@ -273,7 +273,7 @@ if not os.path.exists('UIC_MIS_ROBBER/courseList.csv'):
     options.add_argument('--headless')
     options.add_argument('--no-sandbox')
     options.add_argument('--disable-dev-shm-usage')
-    driver = webdriver.Chrome(chrome_driver_path)
+    driver = webdriver.Chrome(service=service, options=options)
 
     # 打开指定的URL并登录
     url = 'https://mis.uic.edu.cn/mis/usr/login.sec'
@@ -408,8 +408,16 @@ def generate_javascript_code(course_names, courses):
 # 生成JavaScript代码
 javascript_code = generate_javascript_code(course_names, df_courses)
 
+chrome_driver_path = '/usr/local/bin/chromedriver'  # 确保这个路径是正确的
+service = Service(chrome_driver_path)
+
 # 初始化Chrome浏览器
-driver = webdriver.Chrome(chrome_driver_path)
+options = webdriver.ChromeOptions()
+options.add_argument('--headless')
+options.add_argument('--no-sandbox')
+options.add_argument('--disable-dev-shm-usage')
+driver = webdriver.Chrome(service=service, options=options)
+
 
 url = 'https://mis.uic.edu.cn/mis/student/es/elective.do'
 driver.get(url)
@@ -480,4 +488,5 @@ if __name__ == "__main__":
 
     # 开始等待
     wait_until_specified_time(execution_time)
+
 
