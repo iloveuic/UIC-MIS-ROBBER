@@ -67,4 +67,4 @@ jobs:
         COURSES: ${{ github.event.inputs.courses }}
         START_TIME: ${{ github.event.inputs.start_time }}
       run: |
-        python UIC_MIS_ROBBER/START_ROBBER.py
+        python UIC_MIS_ROBBER/START_ROBBER_actions.py
