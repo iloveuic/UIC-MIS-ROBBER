@@ -8,17 +8,21 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 
+###################填写以下内容######################
+
+
 # 用户名和密码，例如
-# username_value = 's130022222'
-# password_value = 'Ysjh2231412'
 username_value = 'k130022222'
 password_value = 'Ysjh2231412'
 
 # 要加入的课程名称列表， 用逗号分开
-# e.g. course_names = ['Approaches to Second Language Teaching (1002)', 'Listen and Speak Up (1007)', 'Professional Communication (1002)']
 course_names = ['Approaches to Second Language Teaching (1002)', 'Listen and Speak Up (1007)', 'Professional Communication (1002)']
 
 start_rob_time = "10:00"
+
+
+#################################################
+
 
 # 检测 courseList.csv 文件是否存在
 if not os.path.exists('courseList.csv'):
