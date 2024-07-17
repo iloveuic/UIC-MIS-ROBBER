@@ -38,8 +38,8 @@ jobs:
         pip install selenium
         pip install pandas
         pip install bs4
-        pip install os
-        pip install datetime
+        # pip install os
+        # pip install datetime
         # Install other dependencies here if necessary
         # e.g., pip install -r UIC_MIS_ROBBER/requirements.txt
 
