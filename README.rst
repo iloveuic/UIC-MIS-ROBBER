@@ -21,24 +21,18 @@
 ### 1. 安装 Python
 :snake: 如果您的计算机上还没有安装 Python，请前往 `Python 官网 <https://www.python.org/downloads/>`_ 下载并安装 Python 3.8版本。更加详细的教程建议前往百度，谷歌，B站或者Youtube寻找，在这里不进行过多赘述。
 
-```sh
-python --version
-```
+   python --version
 
 运行命令查看是否安装成功。
 
 ### 2. 安装必要的 Python 库
 在终端或命令行中运行以下命令来安装必要的库：
 
-```sh
-pip install pandas beautifulsoup4 selenium
-```
+   pip install pandas beautifulsoup4 selenium
 
 或者
 
-```sh
-conda install pandas beautifulsoup4 selenium
-```
+   conda install pandas beautifulsoup4 selenium
 
 ### 3. 下载Chrome和ChromeDriver
 :computer: 首先确认您的计算机中是否安装了Chrome，并更新到最新版本，如果没有请前往 `Chrome中国 官网 <https://www.google.cn/intl/zh-CN/chrome/>`_ 下载并安装Google Chrome。
