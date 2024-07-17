@@ -1,6 +1,9 @@
 北师港浸大UIC MIS系统2024高级自动化抢课程序
 ============================================
 
+|license| |pypi| |python|
+
+
 .. image:: intro/mis.png
    :alt: mis
    :width: 500
