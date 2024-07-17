@@ -49,3 +49,5 @@ conda install pandas beautifulsoup4 selenium
 - password_value：MIS登录密码，例如 'Syuh287812'。
 - course_names：要加入的课程名称列表（注意有空格和班级，请直接在MIS系统中复制过来），例如 ['Big Data Analysis and Applications (1002)', 'Introduction to Bioinformatics (1002)']。
 - start_rob_time：开始选课的时间，例如 "10:00"。
+
+<img src="intro/input.png" alt="input" width="700"/>
