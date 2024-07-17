@@ -30,16 +30,14 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
-        python-version: '3.x'
+        python-version: '3.8'
 
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
         pip install selenium
-        pip install pandas
         pip install bs4
-        # pip install os
-        # pip install datetime
+        pip install pandas
         # Install other dependencies here if necessary
         # e.g., pip install -r UIC_MIS_ROBBER/requirements.txt
 
@@ -51,6 +49,7 @@ jobs:
         unzip chrome-linux64.zip -d chrome
         sudo mv chrome/chrome-linux64 /usr/local/bin/chrome
         sudo ln -s /usr/local/bin/chrome/chrome /usr/local/bin/google-chrome
+        sudo chmod +x /usr/local/bin/google-chrome
         google-chrome --version
 
     - name: Install ChromeDriver
