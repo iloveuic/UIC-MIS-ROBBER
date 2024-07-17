@@ -17,7 +17,7 @@ start_rob_time = os.getenv('START_TIME')
 # 检测 courseList.csv 文件是否存在
 if not os.path.exists('UIC_MIS_ROBBER/courseList.csv'):
     # 设置ChromeDriver路径
-    chrome_driver_path = '/usr/local/bin/chromedriver'  # 确保这个路径是正确的
+    chrome_driver_path = '/usr/local/bin/chromedriver/chromedriver'  # 确保这个路径是正确的
     service = Service(chrome_driver_path)
 
     # 初始化Chrome浏览器
@@ -159,6 +159,15 @@ def generate_javascript_code(course_names, courses):
 
 # 生成JavaScript代码
 javascript_code = generate_javascript_code(course_names, df_courses)
+
+chrome_driver_path = '/usr/local/bin/chromedriver/chromedriver'  # 确保这个路径是正确的
+service = Service(chrome_driver_path)
+
+    # 初始化Chrome浏览器
+options = webdriver.ChromeOptions()
+options.add_argument('--headless')
+options.add_argument('--no-sandbox')
+options.add_argument('--disable-dev-shm-usage')
 
 # 初始化Chrome浏览器
 driver = webdriver.Chrome(options=options,service=service)
