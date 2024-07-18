@@ -7,7 +7,7 @@ import json
 def get_user_info():
     username = input("请输入学号，如s122212321：")
     password = input("请输入密码：")
-    start_rob_time = input("请输入开始选课的时间，例如15:00：")
+    start_rob_time = input("请输入开始选课的24小时制时间，例如15:00：")
 
     print(
         "输入要加入的课程名称列表，用逗号分开，如 Approaches to Second Language Teaching (1002), Listen and Speak Up (1007)")
