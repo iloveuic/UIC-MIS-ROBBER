@@ -9,52 +9,18 @@
 <img src="intro/mis.png" alt="mis" width="500"/>
 
 ## 📖 简介
-该Python脚本用于从UIC的MIS选课系统抓取课程信息，并在指定时间自动选择课程。脚本使用 Selenium 和 BeautifulSoup 库来实现登录、抓取和自动选课功能。
+该程序用于从UIC的MIS选课系统抓取课程信息，并在指定时间自动选择课程。程序使用 Selenium 和 BeautifulSoup 库来实现登录、抓取和自动选课功能。
 
 <img src="intro/flowdiagram.png" alt="flowdiagram" width="500"/>
 
 
 ## 🧑‍🏫 使用教程
 
-### 1. 安装 Python
-如果您的计算机上还没有安装 Python，请前往 [Python 官网](https://www.python.org/downloads/) 下载并安装 Python 3.8版本。更加详细的教程建议前往百度，谷歌，B站或者Youtube寻找，在这里不进行过多赘述。
-```sh
-python --version
-```
-
-运行命令查看是否安装成功。
-
-### 2. 安装必要的 Python 库
-在终端或命令行中运行以下命令来安装必要的库：
-```sh
-pip install pandas beautifulsoup4 selenium
-```
-或者
-```sh
-conda install pandas beautifulsoup4 selenium
-```
-
-### 3. 下载Chrome和ChromeDriver
+### 1. 下载Chrome和ChromeDriver
 首先确认您的计算机中是否安装了Chrome，并更新到最新版本，如果没有请前往 [Chrome中国 官网](https://www.google.cn/intl/zh-CN/chrome/) 下载并安装Google Chrome。
 
 接着前往[Chrome Driver官网](https://googlechromelabs.github.io/chrome-for-testing/) 下载最新版本与你的电脑系统相对应的Chrome Driver。如红框所示的位置。
 
 <img src="intro/chromedriver.png" alt="chromedriver" width="700"/>
 
-
 下载完成后解压，把chromedriver程序放到chromedriver目录下
-
-## 💻 配置参数
-在 START_ROBBER.py 中配置以下参数：
-- username_value：MIS登录用户名，例如 's130027654'。
-- password_value：MIS登录密码，例如 'Syuh287812'。
-- course_names：要加入的课程名称列表（注意有空格和班级，请直接在MIS系统中复制过来），例如 ['Big Data Analysis and Applications (1002)', 'Introduction to Bioinformatics (1002)']。
-- start_rob_time：开始选课的时间，例如 "10:00"。
-
-<img src="intro/input.png" alt="input" width="700"/>
-
-## 🏃 运行MIS_ROBBER抢课程序
-以上环境/参数配置完成后可以使用以下代码运行程序
-```shell
-python START_ROBBER.py
-```
