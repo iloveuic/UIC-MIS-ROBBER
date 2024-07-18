@@ -32,6 +32,7 @@ def display_menu():
     print("1: 获取所有课程信息")
     print("2: 开始抢课")
     print("3: 修改用户信息")
+    print("4: 退出程序")
     choice = input("请选择一个选项: ")
     return choice
 
@@ -48,6 +49,9 @@ def main():
         os.system('python start_robber.py')
     elif choice == '3':
         get_user_info()
+        display_menu()
+    elif choice == '4':
+        pass
     else:
         print("无效选项，请重新运行程序。")
 
