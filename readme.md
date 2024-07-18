@@ -2,11 +2,9 @@
 
 ### BNU-HKBU UIC 2024 Automated Courses Robberies
 
-<img src="intro/misrobber.png" alt="misrobber" width="300"/>
+<img src="intro/misrobber.png" alt="misrobber" width="200"/>
 
 ## ⚠️ 免责声明 | Disclaimer
-
-<img src="intro/mis.png" alt="mis" width="500"/>
 
 **⛔️一旦下载并使用此程序，即表示您同意以下条款。任何使用本程序所产生的后果均由使用者自行承担。**
 **By downloading and using this software, you agree to the following terms. Any consequences arising from the use of this software will be the sole responsibility of the user.**
@@ -17,6 +15,7 @@
 
 **⚠️ UIC选课规则 Course Selection Rules：** Please note that students are **NOT** allowed to use any third-party software for the course selection exercise at any time. Any such case, once discovered, should be promptly reported to the Student Discipline Committee, and it may be subject to penalties. 请注意，学生在任何时候都**不得**使用任何第三方软件进行选课。一旦发现此类情况，应立即向学生纪律委员会报告，并可能会受到处罚。
 
+<img src="intro/mis.png" alt="mis" width="500"/>
 
 ## 📖 简介 | Introduction
 该程序用于从UIC的MIS选课系统抓取课程信息，并在指定时间自动选择课程。程序使用 Selenium 和 BeautifulSoup 库来实现登录、抓取和自动选课功能。
