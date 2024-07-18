@@ -2,9 +2,11 @@
 
 ### BNU-HKBU UIC 2024 Automated Courses Robberies
 
-<img src="intro/mis.png" alt="mis" width="500"/>
+<img src="intro/misrobber.png" alt="misrobber" width="300"/>
 
 ## ⚠️ 免责声明 | Disclaimer
+
+<img src="intro/mis.png" alt="mis" width="500"/>
 
 **⛔️一旦下载并使用此程序，即表示您同意以下条款。任何使用本程序所产生的后果均由使用者自行承担。**
 **By downloading and using this software, you agree to the following terms. Any consequences arising from the use of this software will be the sole responsibility of the user.**
