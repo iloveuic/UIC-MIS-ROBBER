@@ -1,7 +1,6 @@
-# 🥷 MIS-ROBBER
+# 🥷 _MIS-ROBBER_ UIC北师港浸大自动化抢课程序
 
 ### BNU-HKBU UIC 2024 Automated Courses Robberies
-### UIC北师港浸大 2024 MIS系统高级自动化抢课程序
 
 <img src="intro/mis.png" alt="mis" width="500"/>
 
