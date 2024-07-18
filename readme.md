@@ -1,7 +1,12 @@
 # 🥷 MIS-ROBBER
-### UIC北师港浸大 2024 MIS系统高级自动化抢课程序
 
-## ⚠️ 免责声明
+### BNU-HKBU UIC 2024 Automated Courses Robberies
+#### UIC北师港浸大 2024 MIS系统高级自动化抢课程序
+
+## ⚠️ 免责声明 | Disclaimer
+
+**⛔️一旦下载并使用此程序，即表示您同意以下条款。任何使用本程序所产生的后果均由使用者自行承担。**
+**By downloading and using this software, you agree to the following terms. Any consequences arising from the use of this software will be the sole responsibility of the user.**
 
 **🇨🇳 中文：** 本程序仅供学习和研究技术使用，使用者需自行承担因使用本脚本可能带来的任何后果。作者不对因使用本程序而引发的任何直接或间接损失负责。请在使用前确保遵守UIC，UIC SAO (Student Affair Office)，UIC AR (Academic Registry)以及各个学部/专业的相关规定和政策，不得将本程序用于任何非法或不正当目的。如有任何疑问或顾虑，请咨询相关专业人士，技术支持以及学校方面。 
 
@@ -11,13 +16,14 @@
 
 <img src="intro/mis.png" alt="mis" width="500"/>
 
-## 📖 简介
+## 📖 简介 | Introduction
 该程序用于从UIC的MIS选课系统抓取课程信息，并在指定时间自动选择课程。程序使用 Selenium 和 BeautifulSoup 库来实现登录、抓取和自动选课功能。
+This program is used to grab course information from UIC's MIS course selection system and automatically select a course at a specified time. The program uses Selenium and BeautifulSoup libraries to implement the login, grabbing and automatic course selection functions.
 
 <img src="intro/flowdiagram.png" alt="flowdiagram" width="500"/>
 
 
-## 🧑‍🏫 使用教程
+## 🧑‍🏫 使用教程 | Tutorial
 
 ### 1. 下载Chrome和ChromeDriver
 首先确认您的计算机中是否安装了Chrome，并更新到最新版本，如果没有请前往 [Chrome中国 官网](https://www.google.cn/intl/zh-CN/chrome/) 下载并安装Google Chrome。
