@@ -12,13 +12,26 @@ from selenium.webdriver.common.by import By
 
 
 # 用户名和密码，例如
-username_value = 'k130022222'
-password_value = 'Ysjh2231412'
+username_value = input("请输入学号，如s122212321：")
 
-# 要加入的课程名称列表， 用逗号分开
-course_names = ['Approaches to Second Language Teaching (1002)', 'Listen and Speak Up (1007)', 'Professional Communication (1002)']
+password_value = input("请输入密码：")
 
-start_rob_time = "10:00"
+
+#
+print("输入要加入的课程名称列表，用逗号分开，如 Approaches to Second Language Teaching (1002), Listen and Speak Up (1007)")
+
+# 获取用户输入的课程名称列表
+course_names_input = input("你想选的课程是：")
+
+# 将输入的字符串按照逗号分隔并去除空格
+course_names = [course.strip() for course in course_names_input.split(',')]
+
+# 输出用户输入的课程名称列表
+print("你输入的课程名称列表是:")
+for course in course_names:
+    print(course)
+
+start_rob_time = input("请输入开始选课的时间，例如10:00： ")
 
 
 #################################################
@@ -32,7 +45,7 @@ if not os.path.exists('courseList.csv'):
 
     # 初始化Chrome浏览器
     options = webdriver.ChromeOptions()
-    driver = webdriver.Chrome(chrome_driver_path)
+    driver = webdriver.Chrome(options,service)
 
     # 打开指定的URL并登录
     url = 'https://mis.uic.edu.cn/mis/usr/login.sec'
@@ -173,7 +186,7 @@ service = Service(chrome_driver_path)
 
 # 初始化Chrome浏览器
 options = webdriver.ChromeOptions()
-driver = webdriver.Chrome(chrome_driver_path)
+driver = webdriver.Chrome(options,service)
 
 url = 'https://mis.uic.edu.cn/mis/student/es/elective.do'
 driver.get(url)
