@@ -1,0 +1,275 @@
+Index: main_menu.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+># main_menu.py\n\nimport os\nimport json\n\nfrom get_courses import get_courses\nfrom start_robber import start_robber\n\n\ndef get_user_info():\n    username = input(\"请输入学号，如s122212321：\")\n    password = input(\"请输入密码：\")\n    start_rob_time = input(\"请输入开始选课的24小时制时间，例如15:00：\")\n\n    print(\n        \"输入要加入的课程名称列表，用逗号分开，如 Approaches to Second Language Teaching (1002), Listen and Speak Up (1007)\")\n    course_names_input = input(\"你想选的课程是：\")\n    course_names = [course.strip() for course in course_names_input.split(',')]\n\n    user_info = {\n        \"username\": username,\n        \"password\": password,\n        \"start_rob_time\": start_rob_time,\n        \"course_names\": course_names\n    }\n\n    with open('user_info.json', 'w') as f:\n        json.dump(user_info, f)\n\n    print(\"用户信息已保存到 user_info.json\")\n\n\ndef display_menu():\n    print(\"菜单选项:\")\n    print(\"1: 获取所有课程信息\")\n    print(\"2: 开始抢课\")\n    print(\"3: 修改用户信息\")\n    print(\"4: 退出程序\")\n    choice = input(\"请选择一个选项: \")\n    return choice\n\n\ndef main():\n    if not os.path.exists('user_info.json'):\n        get_user_info()\n\n    choice = display_menu()\n\n    if choice == '1':\n        get_courses()\n    elif choice == '2':\n        start_robber()\n    elif choice == '3':\n        get_user_info()\n        display_menu()\n    elif choice == '4':\n        pass\n    else:\n        print(\"无效选项，请重新运行程序。\")\n\n\nif __name__ == \"__main__\":\n    main()
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/main_menu.py b/main_menu.py
+--- a/main_menu.py	
++++ b/main_menu.py	
+@@ -4,8 +4,12 @@
+ import json
+ 
+ from get_courses import get_courses
+-from start_robber import start_robber
++from start_robber import start_robber, open_chrome
++from generate_javascript_code import save_js_code
+ 
++from selenium import webdriver
++from selenium.webdriver.chrome.service import Service
++from selenium.webdriver.common.by import By
+ 
+ def get_user_info():
+     username = input("请输入学号，如s122212321：")
+@@ -35,7 +39,9 @@
+     print("1: 获取所有课程信息")
+     print("2: 开始抢课")
+     print("3: 修改用户信息")
+-    print("4: 退出程序")
++    print("4: 输出JavaScript代码")
++    print("5: 打开自动控制浏览器")
++    print("q: 退出程序")
+     choice = input("请选择一个选项: ")
+     return choice
+ 
+@@ -54,6 +60,11 @@
+         get_user_info()
+         display_menu()
+     elif choice == '4':
++        save_js_code()
++    elif choice == '5':
++        open_chrome()
++
++    elif choice == 'q':
+         pass
+     else:
+         print("无效选项，请重新运行程序。")
+Index: start_robber.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+># start_robber.py\n\nimport os\nimport json\nimport time\nfrom datetime import datetime, timedelta\n\nimport pandas as pd\nfrom selenium import webdriver\nfrom selenium.webdriver.chrome.service import Service\nfrom selenium.webdriver.common.by import By\n\nfrom generate_javascript_code import generate_javascript_code\n\n\ndef start_robber():\n    with open('user_info.json', 'r') as f:\n        user_info = json.load(f)\n\n    username_value = user_info[\"username\"]\n    password_value = user_info[\"password\"]\n    course_names = user_info[\"course_names\"]\n    start_rob_time = user_info[\"start_rob_time\"]\n\n    df_courses = pd.read_csv('courseList.csv')\n    javascript_code = generate_javascript_code(course_names, df_courses)\n\n    chrome_driver_path = 'chromedriver/chromedriver'\n    service = Service(chrome_driver_path)\n\n    options = webdriver.ChromeOptions()\n    driver = webdriver.Chrome(service=service, options=options)\n\n    url = 'https://mis.uic.edu.cn/mis/student/es/elective.do'\n    driver.get(url)\n\n    username = driver.find_element(By.ID, 'j_username')\n    password = driver.find_element(By.NAME, 'j_password')\n    student_radio = driver.find_element(By.ID, 'student')\n    login_button = driver.find_element(By.XPATH, \"//input[@type='image']\")\n\n    username.send_keys(username_value)\n    password.send_keys(password_value)\n    student_radio.click()\n    login_button.click()\n\n    url = 'https://mis.uic.edu.cn/mis/student/es/elective.do'\n    driver.get(url)\n\n    def task():\n        start_time = time.time()\n        driver.execute_script(javascript_code)\n\n        end_time = time.time()\n        elapsed_time = end_time - start_time\n        print(f\"Elapsed time: {elapsed_time:.2f} seconds\")\n\n        time.sleep(0.1)\n        driver.get(url)\n        input(\"Press Enter to close the browser...\")\n\n    def wait_until_specified_time(execution_time):\n        now = datetime.now()\n        next_execution_time = now.replace(hour=execution_time.hour, minute=execution_time.minute, second=0,\n                                          microsecond=0)\n        if now >= next_execution_time:\n            next_execution_time += timedelta(days=1)\n\n        wait_time = (next_execution_time - now).total_seconds()\n        print(\n            f\"Remaining time until execution: {int(wait_time // 3600)} hours, {int(wait_time % 3600 // 60)} minutes, {int(wait_time % 60)} seconds\")\n\n        for _ in range(int(wait_time)):\n            time.sleep(1)\n            now = datetime.now()\n            wait_time = (next_execution_time - now).total_seconds()\n            if wait_time <= 0:\n                break\n            print(\n                f\"Remaining time until execution: {int(wait_time // 3600)} hours, {int(wait_time % 3600 // 60)} minutes, {int(wait_time % 60)} seconds\",\n                end='\\r')\n\n        task()\n\n    execution_time = datetime.strptime(start_rob_time, \"%H:%M\").time()\n    wait_until_specified_time(execution_time)\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/start_robber.py b/start_robber.py
+--- a/start_robber.py	
++++ b/start_robber.py	
+@@ -2,9 +2,11 @@
+ 
+ import os
+ import json
++import random
+ import time
+ from datetime import datetime, timedelta
+ 
++
+ import pandas as pd
+ from selenium import webdriver
+ from selenium.webdriver.chrome.service import Service
+@@ -12,6 +14,38 @@
+ 
+ from generate_javascript_code import generate_javascript_code
+ 
++def open_chrome():
++    with open('user_info.json', 'r') as f:
++        user_info = json.load(f)
++
++    username_value = user_info["username"]
++    password_value = user_info["password"]
++    course_names = user_info["course_names"]
++    start_rob_time = user_info["start_rob_time"]
++
++    chrome_driver_path = 'chromedriver/chromedriver'
++    service = Service(chrome_driver_path)
++
++    options = webdriver.ChromeOptions()
++    driver = webdriver.Chrome(service=service, options=options)
++
++    url = 'https://mis.uic.edu.cn/mis/student/es/elective.do'
++    driver.get(url)
++
++    username = driver.find_element(By.ID, 'j_username')
++    password = driver.find_element(By.NAME, 'j_password')
++    student_radio = driver.find_element(By.ID, 'student')
++    login_button = driver.find_element(By.XPATH, "//input[@type='image']")
++
++    username.send_keys(username_value)
++    password.send_keys(password_value)
++    student_radio.click()
++    login_button.click()
++
++    url = 'https://mis.uic.edu.cn/mis/student/es/elective.do'
++    driver.get(url)
++
++    input()
+ 
+ def start_robber():
+     with open('user_info.json', 'r') as f:
+@@ -25,6 +59,8 @@
+     df_courses = pd.read_csv('courseList.csv')
+     javascript_code = generate_javascript_code(course_names, df_courses)
+ 
++
++
+     chrome_driver_path = 'chromedriver/chromedriver'
+     service = Service(chrome_driver_path)
+ 
+@@ -49,14 +85,30 @@
+ 
+     def task():
+         start_time = time.time()
+-        driver.execute_script(javascript_code)
++        # 随机sleep 0-0.05秒，防止被拦截
++
++        for _ in range(50):
++            driver.execute_script(javascript_code)
++            time.sleep(random.uniform(0.02, 0.1))
++            print("Execute JS Once in Group 1")
++
++        for _ in range(50):
++            driver.execute_script(javascript_code)
++            time.sleep(0.1)
++            print("Execute JS Once in Group 2")
+ 
+         end_time = time.time()
+         elapsed_time = end_time - start_time
+         print(f"Elapsed time: {elapsed_time:.2f} seconds")
+ 
+         time.sleep(0.1)
+-        driver.get(url)
++        # driver.get(url)
++
++        # save js to javascript_code.js
++        # with open('javascript_code.js', 'w') as f:
++        #     f.write(javascript_code)
++        #     print("JavaScript code has been saved to javascript_code.js.")
++
+         input("Press Enter to close the browser...")
+ 
+     def wait_until_specified_time(execution_time):
+@@ -82,5 +134,10 @@
+ 
+         task()
+ 
+-    execution_time = datetime.strptime(start_rob_time, "%H:%M").time()
+-    wait_until_specified_time(execution_time)
++    if start_rob_time == 'now':
++        task()
++    else:
++        execution_time = datetime.strptime(start_rob_time, "%H:%M").time()
++        wait_until_specified_time(execution_time)
++
++
+Index: generate_javascript_code.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>def generate_javascript_code(course_names, courses):\n    course_data = []\n    for name in course_names:\n        course_info = courses[courses['courseName'] == name]\n        if not course_info.empty:\n            course_data.append({\n                'electiveTypeId': course_info.iloc[0]['electiveTypeId'],\n                'courseId': course_info.iloc[0]['courseId']\n            })\n        else:\n            print(f\"Course not found: {name}\")\n\n    javascript_code = \"\"\"\n    (function() {\n        function joinCourses() {\n            const courses = [\n    \"\"\"\n    for course in course_data:\n        javascript_code += f\"{{ electiveTypeId: '{course['electiveTypeId']}', courseId: '{course['courseId']}' }},\"\n\n    javascript_code += \"\"\"\n            ];\n            courses.forEach(course => {\n                fetch('https://mis.uic.edu.cn/mis/student/es/select.do', {\n                    method: 'POST',\n                    headers: {\n                        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',\n                        'Content-Type': 'application/x-www-form-urlencoded'\n                    },\n                    body: new URLSearchParams({\n                        electiveTypeId: course.electiveTypeId,\n                        id: course.courseId\n                    })\n                }).then(response => {\n                    if (response.ok) {\n                        console.log(`Successfully joined the course with ID: ${course.courseId}`);\n                    } else {\n                        console.log(`Failed to join the course with ID: ${course.courseId}. Please try again.`);\n                    }\n                }).catch(error => {\n                    console.error('Error:', error);\n                    console.log(`An error occurred while trying to join the course with ID: ${course.courseId}`);\n                });\n            });\n        }\n        joinCourses();\n    })();\n    \"\"\"\n    return javascript_code
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/generate_javascript_code.py b/generate_javascript_code.py
+--- a/generate_javascript_code.py	
++++ b/generate_javascript_code.py	
+@@ -1,3 +1,8 @@
++import json
++
++import pandas as pd
++
++
+ def generate_javascript_code(course_names, courses):
+     course_data = []
+     for name in course_names:
+@@ -46,4 +51,22 @@
+         joinCourses();
+     })();
+     """
+-    return javascript_code
+\ No newline at end of file
++
++    # Convert to one line
++    one_line_code = ' '.join(javascript_code.split())
++
++    # Save to file
++    with open('js_output.txt', 'w') as file:
++        file.write(one_line_code)
++
++    return javascript_code
++
++
++def save_js_code():
++    with open('user_info.json', 'r') as f:
++        user_info = json.load(f)
++
++    course_names = user_info["course_names"]
++    df_courses = pd.read_csv('courseList.csv')
++
++    return generate_javascript_code(course_names, df_courses)
+Index: readme.md
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+># \uD83E\uDD77 _MIS-ROBBER_ UIC北师港浸大自动化抢课程序\n\n### BNU-HKBU UIC 2024 Automated Courses Robberies\n\n<img src=\"intro/misrobber.png\" alt=\"misrobber\" width=\"200\"/>\n\n## ⚠\uFE0F 免责声明 | Disclaimer\n\n**⛔\uFE0F一旦下载并使用此程序，即表示您同意以下条款。任何使用本程序所产生的后果均由使用者自行承担。**\n**By downloading and using this software, you agree to the following terms. Any consequences arising from the use of this software will be the sole responsibility of the user.**\n\n<img src=\"intro/mis.png\" alt=\"mis\" width=\"500\"/>\n\n### \uD83C\uDDE8\uD83C\uDDF3 中文：\n本程序仅供学习和研究技术使用，使用者需自行承担因使用本脚本可能带来的任何后果。作者不对因使用本程序而引发的任何直接或间接损失负责。请在使用前确保遵守UIC，UIC SAO (Student Affair Office)，UIC AR (Academic Registry)以及各个学部/专业的相关规定和政策，不得将本程序用于任何非法或不正当目的。\n\n#### 使用限制：\n1. **非商业使用**：本程序仅限于个人学习和研究使用，禁止用于任何商业目的。\n2. **遵守法规**：使用者必须遵守相关法律法规和学校的规定，不得利用本程序从事任何非法活动。\n3. **禁止分发**：未经作者书面许可，禁止复制、修改、分发或出售本程序的任何部分。\n4. **责任声明**：使用者需对因使用本程序所导致的任何后果，包括但不限于数据丢失、系统故障、或其他损失自行负责。\n\n#### 技术支持：\n如有任何疑问或顾虑，请咨询相关专业人士、技术支持以及学校方面。\n\n### \uD83C\uDDFA\uD83C\uDDF8 English :\nThis programme is intended for study and research purposes only and the user is solely responsible for any consequences that may arise from the use of this script. The author is not responsible for any direct or indirect damages arising from the use of this programme. Please ensure that you comply with UIC, UIC SAO (Student Affair Office), UIC AR (Academic Registry), and individual departmental/programme regulations and policies before use, and do not use this program for any illegal or improper purpose.\n\n#### Usage Restrictions:\n1. **Non-commercial Use**: This software is intended for personal study and research purposes only and is not to be used for any commercial purposes.\n2. **Compliance with Regulations**: Users must comply with relevant laws, regulations, and university policies, and must not use this software for any illegal activities.\n3. **Prohibition of Distribution**: Without the written permission of the author, copying, modifying, distributing, or selling any part of this software is prohibited.\n4. **Disclaimer of Liability**: Users are responsible for any consequences resulting from the use of this software, including but not limited to data loss, system failures, or other damages.\n\n#### Technical Support:\nIf you have any questions or concerns, please consult with the appropriate professionals, technical support, and the university.\n\n### License\nThis project is licensed under the Apache License 2.0 - see the [LICENSE](LICENSE) file for details.\n\n**⚠\uFE0F UIC选课规则 Course Selection Rules：** Please note that students are **NOT** allowed to use any third-party software for the course selection exercise at any time. Any such case, once discovered, should be promptly reported to the Student Discipline Committee, and it may be subject to penalties. 请注意，学生在任何时候都**不得**使用任何第三方软件进行选课。一旦发现此类情况，应立即向学生纪律委员会报告，并可能会受到处罚。\n\n\n\n## \uD83D\uDCD6 简介 | Introduction\n该程序用于从UIC的MIS选课系统抓取课程信息，并在指定时间自动选择课程。程序使用 Selenium 和 BeautifulSoup 库来实现登录、抓取和自动选课功能。\nThis program is used to grab course information from UIC's MIS course selection system and automatically select a course at a specified time. The program uses Selenium and BeautifulSoup libraries to implement the login, grabbing and automatic course selection functions.\n\n\n<img src=\"intro/flowdiagram.png\" alt=\"flowdiagram\" width=\"500\"/>\n\n## \uD83E\uDDD1\u200D\uD83C\uDFEB 使用教程 | Tutorial\n\n### 1. 下载Chrome和ChromeDriver\n首先确认您的计算机中是否安装了Chrome，并更新到最新版本，如果没有请前往 [Chrome中国 官网](https://www.google.cn/intl/zh-CN/chrome/) 下载并安装Google Chrome。\n\n接着前往[Chrome Driver官网](https://googlechromelabs.github.io/chrome-for-testing/) 下载最新版本与你的电脑系统相对应的Chrome Driver。如红框所示的位置。\n\n<img src=\"intro/chromedriver.png\" alt=\"chromedriver\" width=\"700\"/>\n\n下载完成后解压，把chromedriver程序放到chromedriver目录下\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/readme.md b/readme.md
+--- a/readme.md	
++++ b/readme.md	
+@@ -6,6 +6,8 @@
+ 
+ ## ⚠️ 免责声明 | Disclaimer
+ 
++**⚠️ UIC选课规则 Course Selection Rules：** Please note that students are **NOT** allowed to use any third-party software for the course selection exercise at any time. Any such case, once discovered, should be promptly reported to the Student Discipline Committee, and it may be subject to penalties. 请注意，学生在任何时候都**不得**使用任何第三方软件进行选课。一旦发现此类情况，应立即向学生纪律委员会报告，并可能会受到处罚。
++
+ **⛔️一旦下载并使用此程序，即表示您同意以下条款。任何使用本程序所产生的后果均由使用者自行承担。**
+ **By downloading and using this software, you agree to the following terms. Any consequences arising from the use of this software will be the sole responsibility of the user.**
+ 
+@@ -15,10 +17,10 @@
+ 本程序仅供学习和研究技术使用，使用者需自行承担因使用本脚本可能带来的任何后果。作者不对因使用本程序而引发的任何直接或间接损失负责。请在使用前确保遵守UIC，UIC SAO (Student Affair Office)，UIC AR (Academic Registry)以及各个学部/专业的相关规定和政策，不得将本程序用于任何非法或不正当目的。
+ 
+ #### 使用限制：
+-1. **非商业使用**：本程序仅限于个人学习和研究使用，禁止用于任何商业目的。
+-2. **遵守法规**：使用者必须遵守相关法律法规和学校的规定，不得利用本程序从事任何非法活动。
+-3. **禁止分发**：未经作者书面许可，禁止复制、修改、分发或出售本程序的任何部分。
+-4. **责任声明**：使用者需对因使用本程序所导致的任何后果，包括但不限于数据丢失、系统故障、或其他损失自行负责。
++1. **🏦 非商业使用**：本程序仅限于个人学习和研究使用，禁止用于任何商业目的。
++2. **⚖️ 遵守法规**：使用者必须遵守相关法律法规和学校的规定，不得利用本程序从事任何非法活动。
++3. **💻 禁止分发**：未经作者书面许可，禁止复制、修改、分发或出售本程序的任何部分。
++4. **🙅 责任声明**：使用者需对因使用本程序所导致的任何后果，包括但不限于数据丢失、系统故障、或其他损失自行负责。
+ 
+ #### 技术支持：
+ 如有任何疑问或顾虑，请咨询相关专业人士、技术支持以及学校方面。
+@@ -27,19 +29,17 @@
+ This programme is intended for study and research purposes only and the user is solely responsible for any consequences that may arise from the use of this script. The author is not responsible for any direct or indirect damages arising from the use of this programme. Please ensure that you comply with UIC, UIC SAO (Student Affair Office), UIC AR (Academic Registry), and individual departmental/programme regulations and policies before use, and do not use this program for any illegal or improper purpose.
+ 
+ #### Usage Restrictions:
+-1. **Non-commercial Use**: This software is intended for personal study and research purposes only and is not to be used for any commercial purposes.
+-2. **Compliance with Regulations**: Users must comply with relevant laws, regulations, and university policies, and must not use this software for any illegal activities.
+-3. **Prohibition of Distribution**: Without the written permission of the author, copying, modifying, distributing, or selling any part of this software is prohibited.
+-4. **Disclaimer of Liability**: Users are responsible for any consequences resulting from the use of this software, including but not limited to data loss, system failures, or other damages.
++1. **🏦 Non-commercial Use**: This software is intended for personal study and research purposes only and is not to be used for any commercial purposes.
++2. **⚖️ Compliance with Regulations**: Users must comply with relevant laws, regulations, and university policies, and must not use this software for any illegal activities.
++3. **💻 Prohibition of Distribution**: Without the written permission of the author, copying, modifying, distributing, or selling any part of this software is prohibited.
++4. **🙅 Disclaimer of Liability**: Users are responsible for any consequences resulting from the use of this software, including but not limited to data loss, system failures, or other damages.
+ 
+ #### Technical Support:
+ If you have any questions or concerns, please consult with the appropriate professionals, technical support, and the university.
+ 
+-### License
++### 📖 License
+ This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENSE) file for details.
+ 
+-**⚠️ UIC选课规则 Course Selection Rules：** Please note that students are **NOT** allowed to use any third-party software for the course selection exercise at any time. Any such case, once discovered, should be promptly reported to the Student Discipline Committee, and it may be subject to penalties. 请注意，学生在任何时候都**不得**使用任何第三方软件进行选课。一旦发现此类情况，应立即向学生纪律委员会报告，并可能会受到处罚。
+-
+ 
+ 
+ ## 📖 简介 | Introduction
+@@ -58,4 +58,7 @@
+ 
+ <img src="intro/chromedriver.png" alt="chromedriver" width="700"/>
+ 
+-下载完成后解压，把chromedriver程序放到chromedriver目录下
++下载完成后解压，把chromedriver程序放到chromedriver目录下。
++
++### 2. 运行main_menu.py
++运行前请确保你的电脑中安装了python3.8版本，以及所有的依赖包。
