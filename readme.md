@@ -43,7 +43,7 @@ This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENS
 
 
 ## 📖 简介 | Introduction
-该程序用于从UIC的MIS选课系统抓取课程信息，并在指定时间自动选择课程。程序使用 Selenium 和 BeautifulSoup 库来实现登录、抓取和自动选课功能。
+该程序用于从UIC的MIS选课系统抓取课程信息，并在指定时间自动抢下你提供的课程（根据你想抢的课程名）。程序使用 Selenium 和 BeautifulSoup 库来实现登录、抓取和自动选课功能。
 This program is used to grab course information from UIC's MIS course selection system and automatically select a course at a specified time. The program uses Selenium and BeautifulSoup libraries to implement the login, grabbing and automatic course selection functions.
 
 
